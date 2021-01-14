@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Voir la liste des annonces</h1>
+
+    {# On peut parcourir des tableaux avec Twig #}
+    <ul>
+        {% for property in properties %}
+            {# property.title équivaut à property['title'] #}
+            <li>
+                <a href="{{ path('property_show', { slug: property.title }) }}">
+                    {{ property.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {# On peut dumper dans Twig aussi #}
+    {{ dump(properties) }}
+{% endblock %}
