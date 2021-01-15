@@ -11,18 +11,22 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="#">Agency</a>
+                <a class="navbar-brand" href="{{ path('homepage') }}">Agency</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        {# Si la route actuelle vaut "homepage", on ajoute la classe active avec Twig #}
+                        <li class="nav-item {{ app.request.get('_route') == 'homepage' ? 'active' }}">
                             <a class="nav-link" href="{{ path('homepage') }}">Accueil</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item {{ app.request.get('_route') == 'property_list' ? 'active' }}">
                             <a class="nav-link" href="{{ path('property_list') }}">Annonces</a>
+                        </li>
+                        <li class="nav-item {% if app.request.get('_route') == 'hello' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('hello') }}">Hello</a>
                         </li>
                     </ul>
                 </div>

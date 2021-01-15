@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,17 +22,40 @@ class PropertyController extends AbstractController
      * Page qui liste les annonces immobilières
      * Avec requirements, on peut vérifier que page est un nombre
      */
-    public function index($page = 1): Response
+    public function index(Request $request, $page = 1): Response
     {
         // Pour démarrer, on va créer un tableau d'annonces
         $properties = $this->properties;
 
         // Equivalent du var_dump...
-        dump($page);
-        dump($properties);
+        //dump($page);
+        //dump($properties);
+
+        // On peut récupérer des informations de la requête HTTP
+        $surface = $request->query->get('surface'); // Equivaut à $_GET['surface']
+        $budget = $request->query->get('budget');
+        $size = $request->query->get('size');
+
+        // Il nous manque la BDD pour faire le tri
+        dump($surface);
+        //dump($request);
+
+        // On prépare un tableau avec la tailles des biens
+        // pour générer le select
+        $sizes = [
+            1 => 'Studio',
+            2 => 'T2',
+            3 => 'T3',
+            4 => 'T4',
+            5 => 'T5',
+        ];
 
         return $this->render('property/index.html.twig', [
             'properties' => $properties,
+            'sizes' => $sizes,
+            // On peut passer surface dans la vue mais pas nécessaire
+            // car on l'a dans app.request.get
+            'surface' => $surface,
         ]);
     }
 
@@ -60,9 +84,9 @@ class PropertyController extends AbstractController
      */
     public function api(): Response
     {
-        // return $this->json($this->properties);
-        return new Response(
+        return $this->json($this->properties);
+        /*return new Response(
             json_encode($this->properties)
-        );
+        );*/
     }
 }

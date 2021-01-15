@@ -3,6 +3,39 @@
 {% block body %}
     <h1>Voir la liste des annonces</h1>
 
+    <div class="row">
+
+        <div class="col-lg-3">
+            <form action="" method="get">
+                <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
+                <input type="number" class="form-control mb-3" name="budget" placeholder="Budget maximum" value="{{ app.request.get('budget') }}">
+                <select class="form-control mb-3" name="size">
+                    <option value="" disabled {{ app.request.get('size') == null ? 'selected' }}>Nombre de pièces</option>
+                    {% for size in sizes %}
+                        <option value="{{ loop.index }}" {{ loop.index == app.request.get('size') ? 'selected' }}>{{ size }}</option>
+                    {% endfor %}
+                </select>
+
+                <button class="btn btn-primary btn-block">Filtrer</button>
+            </form>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+                {% for property in properties %}
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <a href="{{ path('property_show', { slug: property.title }) }}">
+                                {{ property.title }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div> <!-- Fin 2ème row -->
+        </div>
+
+    </div> <!-- Fin 1ère row -->
+
     {# On peut parcourir des tableaux avec Twig #}
     <ul>
         {% for property in properties %}
