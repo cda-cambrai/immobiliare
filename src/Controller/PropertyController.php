@@ -45,11 +45,24 @@ class PropertyController extends AbstractController
         // Ici, on peut vérifier que le slug soit dans notre tableau properties
         if (!in_array($slug, array_column($this->properties, 'title'))) {
             // On renvoie une 404 avec Symfony
-            throw $this->createNotFoundException();
+            throw $this->createNotFoundException('Annonce non existante');
         }
 
         return $this->render('property/show.html.twig', [
             'slug' => $slug,
         ]);
+    }
+
+    /**
+     * @Route("/property.{_format}", name="property_api")
+     *
+     * _format est un paramètre magique qui permet de formatter la réponse
+     */
+    public function api(): Response
+    {
+        // return $this->json($this->properties);
+        return new Response(
+            json_encode($this->properties)
+        );
     }
 }

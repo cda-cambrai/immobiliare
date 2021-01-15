@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Voir l'annonce {{ slug }}
+    Voir l'annonce {{ slug | upper }}
+
+    {% for letter in 'a'..'z' %}
+        {# On mets la lettre dabs une balise <strong> une fois sur 2 #}
+        {# Le filtre raw permet d'interpréter le HTML #}
+        {# loop permet de récupérer des infos sur la boucle #}
+        {{ cycle(['<strong>', '<span>'], loop.index) | raw }}
+        {{ letter | upper | lower | upper }}
+        {{ cycle(['</strong>', '</span>'], loop.index) | raw }}
+    {% endfor %}
 {% endblock %}

@@ -28,4 +28,12 @@ class WelcomeController extends AbstractController
             'name' => $name,
         ]);
     }
+
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function home(): Response
+    {
+        return $this->render('welcome/home.html.twig');
+    }
 }
