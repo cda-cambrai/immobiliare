@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ajouter une annonce</h1>
+
+    {# J'affiche mon formulaire #}
+    {{ form_start(realEstateForm) }} <!-- <form method="post"> -->
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form_row(realEstateForm.title) }}
+            </div>
+            <div class="col-lg-6">
+                {{ form_label(realEstateForm.description) }}
+                {{ form_widget(realEstateForm.description) }}
+            </div>
+        </div>
+        {{ form_widget(realEstateForm) }} <!-- input... -->
+
+        <button class="btn btn-primary">Ajouter</button>
+    {{ form_end(realEstateForm) }} <!-- </form> -->
+    <!-- Les formulaires de Symfony nous protègent d'une faille CSRF -->
+{% endblock %}
