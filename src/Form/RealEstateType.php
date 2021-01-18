@@ -12,7 +12,7 @@ class RealEstateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['label' => 'Titre'])
+            ->add('title')
             ->add('description')
             ->add('surface')
             ->add('price')
