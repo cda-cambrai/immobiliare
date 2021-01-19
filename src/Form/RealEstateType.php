@@ -48,8 +48,13 @@ class RealEstateType extends AbstractType
                 // Pour avoir des radios au lieu du select
                 'expanded' => true,
             ])
-            ->add('sold', null, [
+            ->add('sold', ChoiceType::class, [
                 'label' => 'Vendu ?',
+                'choices' => [
+                    'Non' => false,
+                    'Oui' => true,
+                ],
+                // 'expanded' => true,
             ])
         ;
     }

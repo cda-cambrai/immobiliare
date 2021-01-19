@@ -22,8 +22,8 @@
                         <li class="nav-item {{ app.request.get('_route') == 'homepage' ? 'active' }}">
                             <a class="nav-link" href="{{ path('homepage') }}">Accueil</a>
                         </li>
-                        <li class="nav-item {{ app.request.get('_route') == 'property_list' ? 'active' }}">
-                            <a class="nav-link" href="{{ path('property_list') }}">Annonces</a>
+                        <li class="nav-item {{ app.request.get('_route') == 'real_estate_list' ? 'active' }}">
+                            <a class="nav-link" href="{{ path('real_estate_list') }}">Annonces</a>
                         </li>
                         <li class="nav-item {% if app.request.get('_route') == 'hello' %}active{% endif %}">
                             <a class="nav-link" href="{{ path('hello') }}">Hello</a>
