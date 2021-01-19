@@ -25,11 +25,40 @@ class RealEstateController extends AbstractController
             4 => 'T4',
             5 => 'T5',
         ];
-        $properties = [];
+        // On appelle le dépôt d'une entité (là où sont stockés les entités)
+        $repository = $this->getDoctrine()->getRepository(RealEstate::class);
+        // Equivaut à un SELECT * FROM real_estate
+        $properties = $repository->findAll();
 
         return $this->render('real_estate/index.html.twig', [
             'sizes' => $sizes,
             'properties' => $properties,
+        ]);
+    }
+
+    /**
+     * @Route("/nos-biens/{id}", name="real_estate_show")
+     *
+     * La page qui affiche un bien en détail.
+     */
+    public function show(RealEstate $property)
+    {
+        // Avec le @ParamConverter, on n'a pas besoin d'écrire le code suivant
+        // Il suffit de typer le pararmètre avec l'entité que l'on souhaite
+        // récupèrer
+
+        // On récupère la propriété en BDD
+        //$property = $this->getDoctrine()->getRepository(RealEstate::class)
+        //    ->find($id);
+
+        // Renvoie une 404 si la propriété n'existe pas
+        //if (!$property) {
+        //    throw $this->createNotFoundException();
+        //}
+
+        return $this->render('real_estate/show.html.twig', [
+            'property' => $property,
+            'title' => $property->getTitle(),
         ]);
     }
 

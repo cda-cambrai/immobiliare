@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row py-4">
+        <div class="col-lg-6">
+            IMAGE
+        </div>
+
+        <div class="col-lg-6">
+            <h1>{{ title }}</h1>
+            <p class="card-text">
+                {{ property.surface }}m² - {{ property.rooms }} pièce(s)
+            </p>
+            <p class="property-price text-primary">
+                <strong>
+                    {{ property.price }} €
+                </strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <div class="mb-4">
+            {{ property.description }}
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Caractéristiques</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Surface habitable</td>
+                            <td>{{ property.surface }}m²</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre de pièces</td>
+                            <td>{{ property.rooms }} ({{ property.displayableRooms }})</td>
+                        </tr>
+                        <tr>
+                            <td>Type de bien</td>
+                            <td>{{ property.type | capitalize }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

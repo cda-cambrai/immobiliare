@@ -1,3 +1,7 @@
 body {
     background-color: lightgray;
 }
+
+.property-price {
+    font-size: 28px;
+}

@@ -141,6 +141,23 @@ class RealEstate
         return $this->rooms;
     }
 
+    /**
+     * On peut créer une méthode pour retourner le nom
+     * correspondant au nombre de pièces
+     */
+    public function getDisplayableRooms(): string
+    {
+        $sizes = [
+            1 => 'Studio',
+            2 => 'Grand T2',
+            3 => 'Hyper T3',
+            4 => 'Super T4',
+            5 => 'The T5',
+        ];
+
+        return $sizes[$this->rooms];
+    }
+
     public function setRooms(int $rooms): self
     {
         $this->rooms = $rooms;
