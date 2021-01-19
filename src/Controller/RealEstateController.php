@@ -89,6 +89,21 @@ class RealEstateController extends AbstractController
             $entityManager->persist($realEstate);
             // Exécuter la requête
             $entityManager->flush();
+
+            // Faire une redirection après l'ajout et affiche
+            // un message de succès
+            $this->addFlash('success', 'Votre annonce '.$realEstate->getId().' a bien été ajoutée');
+
+            /*+
+                Le tableau des messages ressemble à cela
+                [
+                    'success' => ['A', 'B', 'C'],
+                    'danger' => ['D', 'E'],
+                ]
+            */
+
+            // Faire la redirection vers la liste des annonces et afficher les messages flashs sur le html
+            return $this->redirectToRoute('real_estate_list');
         }
 
         return $this->render('real_estate/create.html.twig', [

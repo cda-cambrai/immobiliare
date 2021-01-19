@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center my-4">Toutes les annonces</h1>
+    <div class="row my-4">
+        <div class="col-lg-10">
+            <h1 class="text-center">Toutes les annonces</h1>
+        </div>
+        <div class="col-lg-2">
+            <a href="{{ path('real_estate_create') }}" class="btn btn-primary">Créer une annonce</a>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-lg-3">
