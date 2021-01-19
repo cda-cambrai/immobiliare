@@ -5,6 +5,17 @@
 
     {# J'affiche mon formulaire #}
     {{ form_start(realEstateForm) }} <!-- <form method="post"> -->
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form_label(realEstateForm.title, 'Titre') }}
+                {{ form_widget(realEstateForm.title) }}
+            </div>
+            <div class="col-lg-6">
+                <!-- Pas besoin de customiser le label ici -->
+                {{ form_row(realEstateForm.description) }}
+            </div>
+        </div>
+
         {{ form_widget(realEstateForm) }} <!-- input... -->
 
         <!-- formnovalidate permet de désactiver la validation HTML5 -->
