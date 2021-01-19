@@ -14,6 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class RealEstate
 {
+    public const SIZES = [
+        1 => 'Studio',
+        2 => 'T2',
+        3 => 'T3',
+        4 => 'T4',
+        5 => 'T5',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
