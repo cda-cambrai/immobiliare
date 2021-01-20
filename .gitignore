@@ -17,3 +17,6 @@
 
 # On ignore le .idea de PhpStorm pour éviter les conflits en équipe
 .idea
+# On ignore tout le dossier uploads sauf le fichier default.png
+/public/img/uploads/*
+!/public/img/uploads/default.png

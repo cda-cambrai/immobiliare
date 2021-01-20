@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\RealEstate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -56,6 +57,7 @@ class RealEstateType extends AbstractType
                 ],
                 // 'expanded' => true,
             ])
+            ->add('image', FileType::class)
         ;
     }
 
