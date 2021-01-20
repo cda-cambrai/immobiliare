@@ -43,6 +43,13 @@
                                     {{ property.surface }}m² - {{ property.rooms }} pièce(s)
                                 </p>
                                 <p class="property-price">{{ property.price }} €</p>
+
+                                <a href="{{ path('real_estate_edit', { id: property.id }) }}" class="btn btn-primary mr-2">
+                                    Modifier
+                                </a>
+                                <a href="{{ path('real_estate_delete', { id: property.id }) }}" class="btn btn-danger">
+                                    Supprimer
+                                </a>
                             </div>
                         </div>
                     </div>

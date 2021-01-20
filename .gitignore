@@ -20,3 +20,4 @@
 # On ignore tout le dossier uploads sauf le fichier default.png
 /public/img/uploads/*
 !/public/img/uploads/default.png
+!/public/img/uploads/fixtures/

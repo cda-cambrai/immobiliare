@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center my-4">Ajouter une annonce</h1>
+
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            {# J'affiche mon formulaire #}
+            {{ form_start(realEstateForm) }} <!-- <form method="post"> -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ form_label(realEstateForm.title, 'Titre') }}
+                        {{ form_widget(realEstateForm.title) }}
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Pas besoin de customiser le label ici -->
+                        {{ form_row(realEstateForm.description) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ form_row(realEstateForm.surface) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ form_row(realEstateForm.price) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ form_row(realEstateForm.rooms) }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{ form_row(realEstateForm.type) }}
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pt-1">
+                            {{ form_row(realEstateForm.sold) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Le code suivant ne sert plus mais permet d'afficher TOUT le formulaire -->
+                {{ form_widget(realEstateForm) }} <!-- input... -->
+
+                <!-- formnovalidate permet de désactiver la validation HTML5 -->
+                <button class="btn btn-primary" formnovalidate>Ajouter</button>
+            {{ form_end(realEstateForm) }} <!-- </form> -->
+        </div> <!-- Fin de la .col-lg-8 -->
+    </div> <!-- Fin de la 1ère row -->
+    <!-- Les formulaires de Symfony nous protègent d'une faille CSRF -->
+{% endblock %}
