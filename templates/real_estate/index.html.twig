@@ -30,12 +30,12 @@
             <div class="row">
                 {% for property in properties %}
                     <div class="col-lg-4">
-                        <div class="card">
+                        <div class="card mb-4">
                             <img class="card-img" src="{{ asset('img/house.jpg') }}" alt="{{ property.title }}">
                             <!-- src="/img/house.jpg" -->
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="{{ path('real_estate_show', { id: property.id }) }}">
+                                    <a href="{{ path('real_estate_show', { slug: property.slug, id: property.id }) }}">
                                         {{ property.title }}
                                     </a>
                                 </h5>

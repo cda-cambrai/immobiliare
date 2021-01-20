@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RealEstateController extends AbstractController
 {
@@ -37,7 +38,7 @@ class RealEstateController extends AbstractController
     }
 
     /**
-     * @Route("/nos-biens/{id}", name="real_estate_show")
+     * @Route("/nos-biens/{slug}_{id}", name="real_estate_show", requirements={"slug"="[a-z0-9\-]*"})
      *
      * La page qui affiche un bien en détail.
      */
@@ -65,7 +66,7 @@ class RealEstateController extends AbstractController
     /**
      * @Route("/creer-un-bien", name="real_estate_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, SluggerInterface $slugger): Response
     {
         // Avec Symfony, on peut créer un formulaire
         // Le formulaire est toujours dans une classe à part
@@ -82,6 +83,9 @@ class RealEstateController extends AbstractController
             // $form->getData() permet de récupérer les données d'un formulaire
             // $realEstate est la même chose que $form->getData()
             dump($realEstate);
+            // On génére le slug et on fait l'upload avant l'ajout en base
+            $slug = $slugger->slug($realEstate->getTitle())->lower(); // Le nom de l'annonce devient le-nom-de-l-annonce
+            $realEstate->setSlug($slug);
 
             // Je dois ajouter l'objet dans la BDD
             $entityManager = $this->getDoctrine()->getManager();
