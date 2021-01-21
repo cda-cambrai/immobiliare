@@ -19,7 +19,7 @@ class RealEstateController extends AbstractController
      *
      * La page qui affiche la liste des biens.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $sizes = [
             1 => 'Studio',
@@ -31,7 +31,14 @@ class RealEstateController extends AbstractController
         // On appelle le dépôt d'une entité (là où sont stockés les entités)
         $repository = $this->getDoctrine()->getRepository(RealEstate::class);
         // Equivaut à un SELECT * FROM real_estate
-        $properties = $repository->findAll();
+        //$properties = $repository->findAll();
+
+        // On récupère la surface dans l'url ou 0 si elle n'existe pas
+        $properties = $repository->findAllWithFilters(
+            $request->get('surface', 0),
+            $request->get('budget', 9999999999999),
+            $request->get('size')
+        );
 
         return $this->render('real_estate/index.html.twig', [
             'sizes' => $sizes,
