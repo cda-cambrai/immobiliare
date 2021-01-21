@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/search.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <div class="row my-4">
         <div class="col-lg-10">
@@ -27,7 +32,7 @@
         </div>
 
         <div class="col-lg-9">
-            <div class="row">
+            <div class="row" id="real-estate-list">
                 {% for property in properties %}
                     <div class="col-lg-4">
                         <div class="card mb-4">
