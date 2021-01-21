@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center my-4">Ajouter une annonce</h1>
+    <h1 class="text-center my-4">Modifier l'annonce {{ realEstate.title }}</h1>
 
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
@@ -33,13 +33,21 @@
                             {{ form_row(realEstateForm.sold) }}
                         </div>
                     </div>
+                    <div class="col-lg-8">
+                        {{ form_row(realEstateForm.image) }}
+                    </div>
+                    <div class="col-lg-4">
+                        <img class="img-fluid" src="{{ asset('img/uploads/' ~ realEstate.image) }}" alt="{{ realEstate.title }}" />
+                    </div>
                 </div>
 
                 <!-- Le code suivant ne sert plus mais permet d'afficher TOUT le formulaire -->
                 {{ form_widget(realEstateForm) }} <!-- input... -->
 
                 <!-- formnovalidate permet de désactiver la validation HTML5 -->
-                <button class="btn btn-primary" formnovalidate>Ajouter</button>
+                <div class="text-center">
+                    <button class="btn btn-primary my-5" formnovalidate>Modifier</button>
+                </div>
             {{ form_end(realEstateForm) }} <!-- </form> -->
         </div> <!-- Fin de la .col-lg-8 -->
     </div> <!-- Fin de la 1ère row -->

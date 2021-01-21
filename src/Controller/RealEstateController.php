@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RealEstate;
 use App\Form\RealEstateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +44,7 @@ class RealEstateController extends AbstractController
      *
      * La page qui affiche un bien en détail.
      */
-    public function show(RealEstate $property)
+    public function show(Request $request, RealEstate $property)
     {
         // Avec le @ParamConverter, on n'a pas besoin d'écrire le code suivant
         // Il suffit de typer le pararmètre avec l'entité que l'on souhaite
@@ -134,11 +135,42 @@ class RealEstateController extends AbstractController
     /**
      * @Route("/nos-biens/modifier/{id}", name="real_estate_edit")
      */
-    public function edit(RealEstate $realEstate)
+    public function edit(Request $request, RealEstate $realEstate)
     {
         $form = $this->createForm(RealEstateType::class, $realEstate);
 
         // Faire le traitement du formulaire...
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ATTENTION si on change le slug aux histoires de redirections...
+
+            // Upload
+            $image = $form->get('image')->getData(); // On récupère la valeur du champ
+            if ($image) { // Si on upload une image dans l'annnonce
+                // On doit vérifier si une ancienne image est présente pour la supprimer
+                // On fera attention de ne pas supprimer default.jpg et les fixtures
+                // On est donc sûr de supprimer uniquement les images des utilisateurs
+                $defaultImages = ['default.png', 'fixtures/1.jpg', 'fixtures/2.jpg', 'fixtures/3.jpg', 'fixtures/4.jpg', 'fixtures/5.png'];
+                if ($realEstate->getImage() && !in_array($realEstate->getImage(), $defaultImages)) {
+                    // FileSystem permet de manipuler les fichiers
+                    $fs = new Filesystem();
+                    // On supprime l'ancienne image
+                    $fs->remove($this->getParameter('upload_directory').'/'.$realEstate->getImage());
+                }
+
+                $fileName = uniqid() . '.' . $image->guessExtension();
+                $image->move($this->getParameter('upload_directory'), $fileName);
+                $realEstate->setImage($fileName);
+            }
+
+            // Pas besoin de faire de persist... Doctrine va détecter
+            // automatiquement qu'il doit faire un UPDATE
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'L\'annonce a bien été modifiée');
+
+            return $this->redirectToRoute('real_estate_list');
+        }
 
         return $this->render('real_estate/edit.html.twig', [
             'realEstateForm' => $form->createView(),
