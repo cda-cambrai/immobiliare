@@ -5,3 +5,8 @@ body {
 .property-price {
     font-size: 28px;
 }
+
+.AllCardImage {
+    object-fit: cover;
+    height: 300px;
+}
