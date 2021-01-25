@@ -4,28 +4,39 @@ namespace App\DataFixtures;
 
 use App\Entity\RealEstate;
 use App\Entity\Type;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
     private $slugger;
+    private $passwordEncoder;
 
     /**
      * Dans une classe d'un projet Symfony, on peut récupèrer n'importe quel service
      * via le constructeur
      */
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->slugger = $slugger;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager)
     {
         // On crée une instance de Faker pour générer les données aléatoires
         $faker = Factory::create('fr_FR');
+
+        // On crée un User pour pouvoir se connecter
+        $user = new User(); // use App\Entity\User;
+        $user->setEmail('matthieu@boxydev.com');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
+        $user->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
 
         // On crée des catégories avant de créer des annonces
         $typeNames = ['Maison', 'Appartement', 'Villa', 'Garage', 'Studio'];
