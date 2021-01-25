@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Type;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -16,7 +17,14 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        $entityManager = $this->getDoctrine();
+        // Renvoie un objet App\Repository\UserRepository
+        $userRepository = $entityManager->getRepository(User::class);
+
+        return $this->render('admin/dashboard.html.twig', [
+            'userCount' => $userRepository->count([]),
+            'realEstateCount' => 98,
+        ]);
     }
 
     public function configureDashboard(): Dashboard
