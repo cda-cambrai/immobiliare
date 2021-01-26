@@ -15,8 +15,16 @@ class CartController extends AbstractController
      */
     public function add(RealEstate $realEstate, SuperCart $superCart): Response
     {
-        // Ajouter l'annonce dans la session
-        $superCart->addItem($realEstate);
+        // Avant d'ajouter au panier, on va vérifier si l'annonce est toujours
+        // en vente ou que l'annonce n'est pas déjà dans le panier
+        if ($realEstate->getSold()) {
+            $this->addFlash('danger', 'Trop tard, l\'annonce est vendu');
+            // Si le produit est déjà dans le panier
+        } else if ($superCart->hasItem($realEstate->getId())) {
+            $this->addFlash('danger', 'Vous avez déjà choisi cette annonce');
+        } else {
+            $superCart->addItem($realEstate);
+        }
 
         // Rediriger vers la page de l'annonce
         return $this->redirectToRoute('real_estate_show', [
@@ -26,12 +34,23 @@ class CartController extends AbstractController
     }
 
     /**
+     * @Route("/cart/remove/{id}", name="cart_remove")
+     */
+    public function remove(RealEstate $realEstate, SuperCart $superCart)
+    {
+        // On supprimer le produit du panier
+        $superCart->removeItem($realEstate->getId());
+
+        return $this->redirectToRoute('cart_index');
+    }
+
+    /**
      * @Route("/cart", name="cart_index")
      */
     public function index(SuperCart $superCart)
     {
         return $this->render('cart/index.html.twig', [
-            'products' => $superCart->getItems(),
+            'items' => $superCart->getItems(),
         ]);
     }
 }
