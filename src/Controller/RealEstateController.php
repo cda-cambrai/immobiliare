@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class RealEstateController extends AbstractController
 {
     /**
-     * @Route("/nos-biens", name="real_estate_list")
+     * @Route("/tous-les-biens", name="real_estate_list")
      *
      * La page qui affiche la liste des biens.
      */
@@ -147,6 +147,12 @@ class RealEstateController extends AbstractController
      */
     public function edit(Request $request, RealEstate $realEstate)
     {
+        // On doit vérifier que l'utilisateur connecté a bien le droit de modifier
+        // l'annonce
+        if ($this->getUser() !== $realEstate->getOwner()) {
+            throw $this->createAccessDeniedException(); // Renvoie une 403
+        }
+
         $form = $this->createForm(RealEstateType::class, $realEstate);
 
         // Faire le traitement du formulaire...
@@ -193,6 +199,10 @@ class RealEstateController extends AbstractController
      */
     public function delete(RealEstate $realEstate)
     {
+        if ($this->getUser() !== $realEstate->getOwner()) {
+            throw $this->createAccessDeniedException(); // Renvoie une 403
+        }
+
         // Pour supprimer avec Doctrine
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($realEstate);
