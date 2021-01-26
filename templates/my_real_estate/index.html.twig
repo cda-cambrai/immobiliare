@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes annonces - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Mes annonces</h1>
+
+    <div class="row">
+        {{ include('real_estate/_real_estate.html.twig') }}
+    </div>
+{% endblock %}
