@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\RealEstate;
 use App\Entity\Type;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -20,10 +21,12 @@ class DashboardController extends AbstractDashboardController
         $entityManager = $this->getDoctrine();
         // Renvoie un objet App\Repository\UserRepository
         $userRepository = $entityManager->getRepository(User::class);
+        $realEstateRepository = $entityManager->getRepository(RealEstate::class);
 
         return $this->render('admin/dashboard.html.twig', [
             'userCount' => $userRepository->count([]),
-            'realEstateCount' => 98,
+            // On compte uniquement les annonces encore en vente
+            'realEstateCount' => $realEstateRepository->count(['sold' => false]),
         ]);
     }
 
@@ -37,5 +40,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Type::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
     }
 }
