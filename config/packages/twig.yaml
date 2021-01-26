@@ -3,3 +3,6 @@ twig:
     # On utilise Bootstrap sur nos formulaires
     form_themes:
         - bootstrap_4_layout.html.twig
+    globals:
+        # Le @ permet de donner une instance d'un service
+        cart: '@App\Services\SuperCart'

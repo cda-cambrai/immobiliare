@@ -3,6 +3,9 @@
 {% block body %}
     <div class="row py-4">
         <div class="col-lg-6">
+            {% if property.sold %}
+                <img class="sold" src="{{ asset('img/sold.png') }}" alt="Sold">
+            {% endif %}
             <img class="img-fluid" src="{{ asset('img/uploads/' ~ property.image) }}" alt="{{ property.title }}">
         </div>
 
@@ -16,6 +19,10 @@
                     {{ property.price }} €
                 </strong>
             </p>
+
+            <a href="{{ path('cart_add', { id: property.id }) }}" class="btn btn-primary btn-block">
+                Ajouter au panier
+            </a>
         </div>
     </div>
 

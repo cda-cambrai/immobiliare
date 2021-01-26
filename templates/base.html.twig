@@ -59,6 +59,11 @@
                                 <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                             </li>
                         {% endif %}
+
+                        <!-- Ici le panier -->
+                        <li class="nav-item active">
+                            <a class="btn btn-light" href="{{ path('cart_index') }}">Panier ({{ cart.count }})</a>
+                        </li>
                     </ul>
                 </div> <!-- Fin div .collapse -->
             </div>

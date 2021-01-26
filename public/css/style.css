@@ -10,3 +10,8 @@ body {
     object-fit: cover;
     height: 300px;
 }
+
+.sold {
+    width: 80px;
+    position: absolute;
+}
