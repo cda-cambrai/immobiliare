@@ -110,6 +110,9 @@ class RealEstateController extends AbstractController
             }
             // dd($image); // dump & die
 
+            // On va lier l'annonce à l'utilisateur qui est connecté
+            $realEstate->setOwner($this->getUser());
+
             // Je dois ajouter l'objet dans la BDD
             $entityManager = $this->getDoctrine()->getManager();
             // Je dois mettre l'objet "en attente"

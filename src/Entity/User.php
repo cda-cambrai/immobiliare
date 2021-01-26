@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +37,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RealEstate::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $realEstates;
+
+    public function __construct()
+    {
+        $this->realEstates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -112,5 +124,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|RealEstate[]
+     */
+    public function getRealEstates(): Collection
+    {
+        return $this->realEstates;
+    }
+
+    public function addRealEstate(RealEstate $realEstate): self
+    {
+        if (!$this->realEstates->contains($realEstate)) {
+            $this->realEstates[] = $realEstate;
+            $realEstate->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRealEstate(RealEstate $realEstate): self
+    {
+        if ($this->realEstates->removeElement($realEstate)) {
+            // set the owning side to null (unless already changed)
+            if ($realEstate->getOwner() === $this) {
+                $realEstate->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
