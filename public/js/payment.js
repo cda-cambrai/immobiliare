@@ -29,7 +29,9 @@ $('#stripe-pay').click(function () {
             $('#card-error').text(result.error.message);
         } else {
             // Afficher un message de succès quand le paiement a eu lieu
-            alert('Paiement OK');
+            // alert('Paiement OK');
+            // Redirection en JS
+            window.location = '/cart/success/' + result.paymentIntent.id;
         }
     });
 });

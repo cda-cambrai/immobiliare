@@ -8,6 +8,8 @@ use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
@@ -59,16 +61,43 @@ class CartController extends AbstractController
             $total = 999999;
         }
 
-        // On va créer l'intention de paiement
-        $paymentIntent = PaymentIntent::create([
-            'amount' => $total * 100, // 10.99 devient 1099
-            'currency' => 'eur',
-        ]);
+        // Attention que le panier soit bien rempli avant de faire le paiement
+        $clientSecret = null;
+        if ($total > 0) {
+            // On va créer l'intention de paiement
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $total * 100, // 10.99 devient 1099
+                'currency' => 'eur',
+            ]);
+            $clientSecret = $paymentIntent->client_secret;
+        }
 
         return $this->render('cart/index.html.twig', [
             'items' => $superCart->getItems(),
             // Le client_secret permet d'effectuer le paiement plus tard
-            'clientSecret' => $paymentIntent->client_secret,
+            'clientSecret' => $clientSecret,
         ]);
+    }
+
+    /**
+     * @Route("/cart/success/{id}", name="cart_success")
+     */
+    public function success($id, $stripeKey, SuperCart $superCart, MailerInterface $mailer)
+    {
+        Stripe::setApiKey($stripeKey);
+        // On peut retrouver les infos du paiement dans Stripe
+        $paymentIntent = PaymentIntent::retrieve($id);
+
+        // Je rédige le mail...
+        $email = (new Email())
+            ->from('commande@immobiliare.com')
+            ->to($this->getUser()->getEmail())
+            ->subject('Votre commande')
+            ->html('<h1>Hello</h1>');
+
+        // J'envoie le mail...
+        $mailer->send($email);
+
+        return $this->render('cart/success.html.twig');
     }
 }

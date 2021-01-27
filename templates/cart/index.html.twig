@@ -46,6 +46,7 @@
         </tbody>
     </table>
 
+    {% if clientSecret %}
     <div class="text-center mt-5">
         <div id="stripe-card" class="form-control"></div>
         <p id="card-error"></p>
@@ -54,4 +55,5 @@
             Payer
         </button>
     </div>
+    {% endif %}
 {% endblock %}
