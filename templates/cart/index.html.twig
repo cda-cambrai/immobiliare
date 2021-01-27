@@ -2,6 +2,12 @@
 
 {% block title %}Mon panier - {{ parent() }}{% endblock %}
 
+{% block javascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    {{ parent() }}
+    <script src="{{ asset('js/payment.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <h1 class="text-center my-4">Mon panier</h1>
 
@@ -41,6 +47,11 @@
     </table>
 
     <div class="text-center mt-5">
-        <a href="#" class="btn btn-primary btn-lg">Payer</a>
+        <div id="stripe-card" class="form-control"></div>
+        <p id="card-error"></p>
+
+        <button id="stripe-pay" class="btn btn-primary btn-lg" data-client-secret="{{ clientSecret }}">
+            Payer
+        </button>
     </div>
 {% endblock %}
