@@ -88,15 +88,29 @@ class CartController extends AbstractController
         // On peut retrouver les infos du paiement dans Stripe
         $paymentIntent = PaymentIntent::retrieve($id);
 
+        // Pour trouver l'url de la facture
+        // dd($paymentIntent->charges->data[0]->receipt_url);
+
         // Je rédige le mail...
         $email = (new Email())
             ->from('commande@immobiliare.com')
             ->to($this->getUser()->getEmail())
             ->subject('Votre commande')
-            ->html('<h1>Hello</h1>');
+            ->html($this->renderView('emails/order.html.twig', [
+                'paymentIntent' => $paymentIntent,
+                'cart' => $superCart,
+                'user' => $this->getUser(),
+            ]));
 
         // J'envoie le mail...
         $mailer->send($email);
+
+        // Vider le panier
+        $superCart->clear();
+
+        // Idéalement, on pourrait créer une entité Order
+        // qui stockerait le client, le montant, la liste des produits,
+        // l'identifiant Stripe
 
         return $this->render('cart/success.html.twig');
     }

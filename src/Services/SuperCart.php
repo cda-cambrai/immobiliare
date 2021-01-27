@@ -89,4 +89,12 @@ class SuperCart
         // On mets à jour la session avec le tableau sans le produit supprimé
         $this->session->set('products', $products);
     }
+
+    /**
+     * Permet de vider le panier
+     */
+    public function clear()
+    {
+        $this->session->set('products', []);
+    }
 }

@@ -1,0 +1,10 @@
+<h1>Hello {{ user.username }}</h1>
+
+<ul>
+    {% for item in cart.items %}
+        <li>{{ item.title }} - {{ item.price }} €</li>
+    {% endfor %}
+</ul>
+
+<p>Vous avez payé {{ cart.total }} €</p>
+<p>Votre <a href="{{ paymentIntent.charges.data.0.receipt_url }}">facture</a></p>
