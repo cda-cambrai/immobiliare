@@ -1,5 +1,31 @@
 # Immobiliare
 
+## Quelques screens
+
+- Les annonces
+
+![](screens/annonces.png)
+
+- Le login
+
+![](screens/login.png)
+
+- Créer une annonce
+
+![](screens/creer.png)
+
+- L'administration
+
+![](screens/admin.png)
+
+- Mes annonces
+
+![](screens/mes-annonces.png)
+
+- Une annonce
+
+![](screens/annonce.png)
+
 Après avoir récupéré le projet Symfony, ne pas oublier d'installer les dépendances :
 
 ```
